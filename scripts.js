@@ -7,31 +7,17 @@ const startGameButton = document.getElementById("startGameButton");
 
 // array com o nome dos personagens
 const characters = [
-  "cachorro",
-  "cavalo",
-  "coelho",
-  "galinha",
-  "gato",
-  "girafa",
-  "papagaio",
-  "peixe",
-  "porco",
-  "vaca",
+  "MV1",
+  "MV2",
+  "MV3",
+  "MV4",
+  "MV5",
+  "MV6",
+  "MV7",
+  "MV8",
+  "MV9",
+  "MV10",
 ];
-
-startGameButton.addEventListener("click", () => {
-  const playerName = playerNameInput.value.trim();
-
-  if (playerName !== "") {
-    localStorage.setItem("player", playerName);
-    namePlayer.innerHTML = playerName;
-    playerNameInput.style.display = "none"; // Esconde o input após inserir o nome
-    startGameButton.style.display = "none"; // Esconde o botão após iniciar o jogo
-    loadGame();
-  } else {
-    alert("Por favor, insira um nome válido para jogar.");
-  }
-});
 
 // função que cria um elemento Html e adiciona uma class ao elemento
 const createElement = (tag, className) => {
@@ -95,6 +81,7 @@ const revealCard = ({ target }) => {
   if (firstCard === "") {
     target.parentNode.classList.add("reveal-card");
     firstCard = target.parentNode;
+
   } else if (secondCard === "") {
     target.parentNode.classList.add("reveal-card");
     secondCard = target.parentNode;
@@ -122,6 +109,27 @@ const createCard = (character) => {
   return card;
 };
 
+// Função de quando clicar no botão 'Iniciar jogo' começar o game novamente.
+startGameButton.addEventListener("click", () => {
+  const playerName = playerNameInput.value.trim();
+
+  if (playerName !== "") {
+    localStorage.setItem("player", playerName);
+    namePlayer.innerHTML = playerName;
+    playerNameInput.style.display = "none"; // Esconde o input após inserir o nome
+    startGameButton.style.display = "none"; // Esconde o botão após iniciar o jogo
+    // Limpar o conteúdo da div grid para reiniciar o jogo
+    grid.innerHTML = "";
+
+    // Reiniciar o timer
+    timer.innerHTML = "00";
+    loadGame();
+    startTimer();
+  } else {
+    alert("Por favor, insira um nome válido para jogar.");
+  }
+});
+
 // função que carrega o jogo, duplicando os arrays, deixando a posição aleatória e adicionando os cards ao grid
 // E a cada rodada, eu embaralho diferente os cards
 const loadGame = () => {
@@ -136,9 +144,15 @@ const loadGame = () => {
 };
 
 const startTimer = () => {
+  let seconds = 0;
+
   this.loop = setInterval(() => {
-    const currentTime = +timer.innerHTML;
-    timer.innerHTML = currentTime + 1;
+    seconds++;
+
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+
+    timer.innerHTML = `${minutes < 10 ? '0' + minutes : minutes}:${remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds}`;
   }, 1000);
 };
 
@@ -147,17 +161,18 @@ restartButton.addEventListener("click", () => {
   grid.innerHTML = "";
 
   // Reiniciar o timer
-  timer.innerHTML = "00";
+  clearInterval(this.loop); // Parar o timer atual
+  timer.innerHTML = "00"; // Reiniciar o timer para 00
 
   // Limpar o localStorage
   localStorage.removeItem("player");
 
   // Reiniciar o jogo
   loadGame();
+  startTimer();
 });
 
 window.onload = () => {
   namePlayer.innerHTML = localStorage.getItem("player");
-  startTimer();
   loadGame();
 };

@@ -52,7 +52,7 @@ main{
 main .img-background {
     width: 100vw;
     height: 100%;
-    background-image: url('img/BG-2.jpg');
+    background-image: url('img/BG.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     position: fixed;
@@ -176,8 +176,12 @@ input {
     }
 
     header ul a {
-        color: black;
+        color: white;
         font-size: 13px;
+    }
+
+    main .img-background {
+        background-image: url('img/BG-cell.jpg');
     }
     
     .grid{

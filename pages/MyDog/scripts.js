@@ -19,6 +19,7 @@ const characters = [
   "Groot10",
 ];
 
+// Função de quando clicar no botão 'Iniciar jogo' começar o game novamente.
 startGameButton.addEventListener("click", () => {
   const playerName = playerNameInput.value.trim();
 
@@ -27,7 +28,13 @@ startGameButton.addEventListener("click", () => {
     namePlayer.innerHTML = playerName;
     playerNameInput.style.display = "none"; // Esconde o input após inserir o nome
     startGameButton.style.display = "none"; // Esconde o botão após iniciar o jogo
+    // Limpar o conteúdo da div grid para reiniciar o jogo
+    grid.innerHTML = "";
+
+    // Reiniciar o timer
+    timer.innerHTML = "00";
     loadGame();
+    startTimer();
   } else {
     alert("Por favor, insira um nome válido para jogar.");
   }
@@ -136,9 +143,15 @@ const loadGame = () => {
 };
 
 const startTimer = () => {
+  let seconds = 0;
+
   this.loop = setInterval(() => {
-    const currentTime = +timer.innerHTML;
-    timer.innerHTML = currentTime + 1;
+    seconds++;
+
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+
+    timer.innerHTML = `${minutes < 10 ? '0' + minutes : minutes}:${remainingSeconds < 10 ? '0' + remainingSeconds : remainingSeconds}`;
   }, 1000);
 };
 
@@ -147,17 +160,20 @@ restartButton.addEventListener("click", () => {
   grid.innerHTML = "";
 
   // Reiniciar o timer
-  timer.innerHTML = "00";
+  clearInterval(this.loop); // Parar o timer atual
+  timer.innerHTML = "00"; // Reiniciar o timer para 00
 
   // Limpar o localStorage
   localStorage.removeItem("player");
 
   // Reiniciar o jogo
   loadGame();
+
+  // Iniciar o Tempo do jogo
+  startTimer();
 });
 
 window.onload = () => {
   namePlayer.innerHTML = localStorage.getItem("player");
-  startTimer();
   loadGame();
 };

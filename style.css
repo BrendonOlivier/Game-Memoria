@@ -30,7 +30,7 @@ header ul {
 }
 
 header ul a {
-    color: black;
+    color: white;
     font-size: 25px;
 }
 
@@ -52,7 +52,7 @@ main{
 main .img-background {
     width: 100vw;
     height: 100%;
-    background-image: url('img/BG-1.avif');
+    background-image: url('img/BG-2.jpg');
     background-size: cover;
     background-repeat: no-repeat;
     position: fixed;
@@ -146,7 +146,7 @@ input {
 }
 
 .back{
-    background-image: url('img/back.avif');
+    background-image: url('img/back.png');
     backface-visibility: hidden;
 }
 
@@ -176,8 +176,12 @@ input {
     }
 
     header ul a {
-        color: black;
+        color: white;
         font-size: 13px;
+    }
+
+    main .img-background {
+        background-image: url('img/BgCell-1.jpg');
     }
     
     .grid{
